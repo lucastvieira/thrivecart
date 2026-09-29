@@ -2,16 +2,19 @@
   {
     "code": "R01",
     "name": "Red Widget",
-    "price": 3295
+    "price": 3295,
+    "color": "red"
   },
   {
     "code": "G01",
     "name": "Green Widget",
-    "price": 2495
+    "price": 2495,
+    "color": "green"
   },
   {
     "code": "B01",
     "name": "Blue Widget",
-    "price": 795
+    "price": 795,
+    "color": "blue"
   }
 ]
