@@ -1,0 +1,15 @@
+{
+    "name": "thrivecart/server",
+    "authors": [
+        {
+            "name": "Lucas Vieira",
+            "email": "lucastonellovieira@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Thrivecart\\Server\\": "lib/"
+        }
+    }
+}
