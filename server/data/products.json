@@ -1,0 +1,17 @@
+[
+  {
+    "code": "R01",
+    "name": "Red Widget",
+    "price": 3295
+  },
+  {
+    "code": "G01",
+    "name": "Green Widget",
+    "price": 2495
+  },
+  {
+    "code": "B01",
+    "name": "Blue Widget",
+    "price": 795
+  }
+]

@@ -9,7 +9,8 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "Thrivecart\\Server\\": "lib/"
+            "Thrivecart\\Server\\": "lib/",
+            "Thrivecart\\Server\\Action\\": "action/"
         }
     }
 }
