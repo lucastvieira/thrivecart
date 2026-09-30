@@ -1,0 +1,27 @@
+{
+    "php.validate.enable": true,
+    "php.validate.executablePath": "/usr/local/bin/php",
+    "php.suggest.basic": false,
+    "phpcs.enable": true,
+    "phpcs.standard": "PSR12",
+    "intelephense.environment.phpVersion": "8.4.0",
+    "intelephense.environment.includePaths": [
+        "server"
+    ],
+    "[json]": {
+        "editor.tabSize": 2
+    },
+    "[php]": {
+        "editor.tabSize": 4
+    },
+    "[javascript]": {
+        "editor.tabSize": 2
+    },
+    "[typescript]": {
+        "editor.tabSize": 2
+    },
+    "[typescriptreact]": {
+        "editor.tabSize": 2,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}
