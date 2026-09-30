@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { IProduct } from '~/types/products';
-import type { ICartItem } from '~/types/cart';
+import type { ICartDiscount, ICartItem } from '~/types/cart';
 import ProductItem from '~/components/product-item';
 import Cart from '~/components/cart';
 import { getCartCalculate, getProducts } from '~/services/api';
@@ -12,6 +12,8 @@ export default function App() {
 
   const [cartItems, setCartItems] = useState<ICartItem[]>([]);
   const [cartLoading, setCartLoading] = useState(false);
+
+  const [discounts, setDiscounts] = useState<ICartDiscount[]>([]);
 
   const [total, setTotal] = useState(0);
   const [shipping, setShipping] = useState(0);
@@ -34,6 +36,7 @@ export default function App() {
       const { data } = await getCartCalculate(items);
       setTotal(data.total);
       setShipping(data.shipping);
+      setDiscounts(data.discounts);
     } catch (error) {
       console.error(error);
     } finally {
@@ -86,11 +89,12 @@ export default function App() {
         </div>
       )}
       <Cart
-        cartItems={cartItems}
         setCartItems={setCartItems}
+        cartItems={cartItems}
         cartLoading={cartLoading}
         total={total}
         shipping={shipping}
+        discounts={discounts}
       />
     </div>
   );

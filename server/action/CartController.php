@@ -5,6 +5,8 @@ namespace Thrivecart\Server\Action;
 use Thrivecart\Server\Catalog;
 use Thrivecart\Server\Response;
 use Thrivecart\Server\Controller;
+use Thrivecart\Server\Model\DiscountOffer;
+use Thrivecart\Server\Model\DiscountOfferProduct;
 
 final class CartController extends Controller
 {
@@ -26,7 +28,7 @@ final class CartController extends Controller
         $subtotal = $this->calculateTotal($products, $payload->items);
 
         $discount = $this->applyOffers($offers, $products, $payload->items);
-        $subtotal -= $discount;
+        $subtotal -= $discount->total;
 
         $shipping = $this->calculateShipping($delivery, $subtotal);
         $total = $subtotal + $shipping;
@@ -35,6 +37,7 @@ final class CartController extends Controller
             'subtotal' => $subtotal,
             'shipping' => $shipping,
             'total' => $total,
+            'discounts' => $discount->products,
         ]);
     }
 
@@ -69,9 +72,10 @@ final class CartController extends Controller
         return 0;
     }
 
-    private function applyOffers(array $offers, array $products, array $items): int
+    private function applyOffers(array $offers, array $products, array $items): DiscountOffer
     {
-        $discount = 0;
+        $productDiscounts = [];
+        $totalDiscount = 0;
 
         foreach ($offers as $offer) {
             if ($offer->type !== self::OFFER_BOGO_50_ON_SECOND_ITEM) {
@@ -94,10 +98,12 @@ final class CartController extends Controller
             $item = array_shift($filtered);
             $pairs = intdiv($item->quantity, 2);
             $halfPrice = ceil($product->price / 2);
-            $discount += $pairs * $halfPrice;
+            $discount = $pairs * $halfPrice;
+            $productDiscounts[] = new DiscountOfferProduct($product->code, $discount);
+            $totalDiscount += $discount;
         }
 
-        return $discount;
+        return new DiscountOffer($productDiscounts, $totalDiscount);
     }
 
     private function findProductByCode(array $products, string $code): object|null

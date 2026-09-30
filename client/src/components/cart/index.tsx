@@ -1,10 +1,11 @@
-import type { ICartItem } from '~/types/cart';
+import type { ICartDiscount, ICartItem } from '~/types/cart';
 import CartItem from './cart-item';
 import Skeleton from '~/components/skeleton';
 import { currencyPrice } from '~/helpers/format-price';
 
 interface CartProps {
   cartItems: ICartItem[];
+  discounts: ICartDiscount[];
   setCartItems: (items: ICartItem[]) => void;
   cartLoading: boolean;
   total: number;
@@ -12,14 +13,19 @@ interface CartProps {
 }
 
 export default function Cart({
-  cartItems,
   setCartItems,
+  cartItems,
+  discounts,
   cartLoading,
   total,
   shipping,
 }: CartProps) {
   const handleRemove = (productCode: string) => {
     setCartItems(cartItems.filter((item) => item.product.code !== productCode));
+  };
+
+  const findDiscount = (productCode: string) => {
+    return discounts?.find((discount) => discount.code === productCode);
   };
 
   return (
@@ -33,6 +39,7 @@ export default function Cart({
             <CartItem
               key={item.product.code}
               item={item}
+              discount={findDiscount(item.product.code)}
               onRemove={handleRemove}
             />
           ))}

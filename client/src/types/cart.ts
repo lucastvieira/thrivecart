@@ -6,8 +6,14 @@ export interface ICartItem {
   total: number
 }
 
+export interface ICartDiscount {
+  code: string
+  amount: number
+}
+
 export interface ICartCalculateResponse {
   subtotal: number
   total: number
   shipping: number
+  discounts: ICartDiscount[]
 }

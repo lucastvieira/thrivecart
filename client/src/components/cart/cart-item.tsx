@@ -1,12 +1,13 @@
 import { currencyPrice } from '~/helpers/format-price';
-import type { ICartItem } from '~/types/cart';
+import type { ICartDiscount, ICartItem } from '~/types/cart';
 
 interface CartItemProps {
   item: ICartItem;
+  discount: ICartDiscount | undefined;
   onRemove: (productCode: string) => void;
 }
 
-export default function CartItem({ item, onRemove }: CartItemProps) {
+export default function CartItem({ item, discount, onRemove }: CartItemProps) {
   return (
     <article className="flex items-center gap-4 overflow-hidden rounded-2xl border border-neutral-200 bg-white p-4">
       <div
@@ -23,7 +24,12 @@ export default function CartItem({ item, onRemove }: CartItemProps) {
       </div>
       <p className="text-sm tabular-nums text-neutral-600">× {item.quantity}</p>
       <p className="w-20 text-right text-base font-medium tabular-nums text-neutral-900">
-        {currencyPrice(item.total)}
+        {discount && discount.amount > 0 && (
+          <s className="block text-xs text-neutral-500">
+            {currencyPrice(item.total)}
+          </s>
+        )}
+        {currencyPrice(item.total - (discount?.amount || 0))}
       </p>
       <button
         type="button"
