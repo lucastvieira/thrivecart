@@ -8,6 +8,8 @@ use Thrivecart\Server\Controller;
 
 final class CartController extends Controller
 {
+    public const OFFER_BOGO_50_ON_SECOND_ITEM = 'buy_one_get_second_half_price';
+
     public function calculate(): void
     {
         $payload = $this->request();
@@ -19,14 +21,20 @@ final class CartController extends Controller
         $catalog = new Catalog();
         $products = $catalog->products();
         $delivery = $catalog->delivery();
+        $offers = $catalog->offers();
 
-        $total = $this->calculateTotal($products, $payload->items);
-        $shipping = $this->calculateShipping($delivery, $total);
+        $subtotal = $this->calculateTotal($products, $payload->items);
+
+        $discount = $this->applyOffers($offers, $products, $payload->items);
+        $subtotal -= $discount;
+
+        $shipping = $this->calculateShipping($delivery, $subtotal);
+        $total = $subtotal + $shipping;
 
         Response::json([
-            'subtotal' => $total,
+            'subtotal' => $subtotal,
             'shipping' => $shipping,
-            'total' => $total + $shipping,
+            'total' => $total,
         ]);
     }
 
@@ -59,5 +67,46 @@ final class CartController extends Controller
         }
 
         return 0;
+    }
+
+    private function applyOffers(array $offers, array $products, array $items): int
+    {
+        $discount = 0;
+
+        foreach ($offers as $offer) {
+            if ($offer->type !== self::OFFER_BOGO_50_ON_SECOND_ITEM) {
+                continue;
+            }
+
+            $filtered = array_filter($items, function ($item) use ($offer) {
+                return $item->product->code === $offer->product;
+            });
+
+            if (empty($filtered)) {
+                continue;
+            }
+
+            $product = $this->findProductByCode($products, $offer->product);
+            if (!$product) {
+                continue;
+            }
+
+            $item = array_shift($filtered);
+            $pairs = intdiv($item->quantity, 2);
+            $halfPrice = ceil($product->price / 2);
+            $discount += $pairs * $halfPrice;
+        }
+
+        return $discount;
+    }
+
+    private function findProductByCode(array $products, string $code): object|null
+    {
+        foreach ($products as $product) {
+            if ($product->code === $code) {
+                return $product;
+            }
+        }
+        return null;
     }
 }
