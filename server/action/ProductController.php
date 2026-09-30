@@ -4,10 +4,11 @@ namespace Thrivecart\Server\Action;
 
 use Thrivecart\Server\Response;
 use Thrivecart\Server\Catalog;
+use Thrivecart\Server\Controller;
 
-final class Products
+final class ProductController extends Controller
 {
-    public function execute(): void
+    public function index(): void
     {
         $catalog = new Catalog();
 
