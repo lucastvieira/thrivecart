@@ -12,7 +12,7 @@ final class CartController extends Controller
     {
         $payload = $this->request();
 
-        if (!isset($payload['items']) || !is_array($payload['items'])) {
+        if (!$payload || !isset($payload->items) || !is_array($payload->items)) {
             Response::error('Items are required');
         }
 
@@ -20,7 +20,7 @@ final class CartController extends Controller
         $products = $catalog->products();
         $delivery = $catalog->delivery();
 
-        $total = $this->calculateTotal($products, $payload);
+        $total = $this->calculateTotal($products, $payload->items);
         $shipping = $this->calculateShipping($delivery, $total);
 
         Response::json([
