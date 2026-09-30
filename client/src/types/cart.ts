@@ -7,6 +7,7 @@ export interface ICartItem {
 }
 
 export interface ICartCalculateResponse {
+  subtotal: number
   total: number
   shipping: number
 }

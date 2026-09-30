@@ -24,8 +24,9 @@ final class CartController extends Controller
         $shipping = $this->calculateShipping($delivery, $total);
 
         Response::json([
-            'total' => $total,
+            'subtotal' => $total,
             'shipping' => $shipping,
+            'total' => $total + $shipping,
         ]);
     }
 
