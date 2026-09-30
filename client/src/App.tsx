@@ -4,6 +4,7 @@ import type { ICartItem } from '~/types/cart';
 import ProductItem from '~/components/product-item';
 import Cart from '~/components/cart';
 import { getCartCalculate, getProducts } from '~/services/api';
+import ProductSkeleton from '~/components/product-skeleton';
 
 export default function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -72,7 +73,7 @@ export default function App() {
       <h1 className="text-3xl font-semibold tracking-tight text-neutral-900">
         Acme Widget Co
       </h1>
-      {productsLoading && <p className="text-neutral-600">Loading...</p>}
+      {productsLoading && <ProductSkeleton />}
       {!productsLoading && (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
