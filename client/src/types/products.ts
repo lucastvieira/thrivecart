@@ -1,10 +1,10 @@
-export interface Product {
+export interface IProduct {
   code: string
   name: string
   price: number
   color: string
 }
 
-export interface ProductsResponse {
-  products: Product[]
+export interface IProductsResponse {
+  products: IProduct[]
 }
