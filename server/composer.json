@@ -11,7 +11,8 @@
         "psr-4": {
             "Thrivecart\\Server\\": "lib/",
             "Thrivecart\\Server\\Action\\": "action/",
-            "Thrivecart\\Server\\Model\\": "model/"
+            "Thrivecart\\Server\\Model\\": "model/",
+            "Thrivecart\\Server\\Service\\": "service/"
         }
     }
 }
