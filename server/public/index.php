@@ -2,6 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use Thrivecart\Server\Action\CartController;
 use Thrivecart\Server\Action\ProductController;
 use Thrivecart\Server\Http;
 use Thrivecart\Server\Response;
@@ -20,6 +21,7 @@ $router = new Router();
 
 $router->get('/api/products', [new ProductController(), 'index']);
 
+$router->post('/api/cart/calculate', [new CartController(), 'calculate']);
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
 $router->dispatch($_SERVER['REQUEST_METHOD'], $uri);
