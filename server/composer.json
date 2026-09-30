@@ -7,6 +7,9 @@
         }
     ],
     "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    },
     "autoload": {
         "psr-4": {
             "Thrivecart\\Server\\": "lib/",
@@ -14,5 +17,8 @@
             "Thrivecart\\Server\\Model\\": "model/",
             "Thrivecart\\Server\\Service\\": "service/"
         }
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }
