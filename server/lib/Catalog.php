@@ -37,7 +37,7 @@ final class Catalog
             throw new \RuntimeException("Unable to read {$path}");
         }
 
-        $data = json_decode($contents, true);
+        $data = json_decode($contents);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \RuntimeException("Invalid JSON in {$path}");
         }
